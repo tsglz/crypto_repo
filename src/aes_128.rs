@@ -1,3 +1,4 @@
+use aes::cipher::typenum::Length;
 use aes::cipher::{generic_array::GenericArray, BlockDecrypt, BlockEncrypt, KeyInit};
 use aes::Aes128;
 
@@ -52,7 +53,7 @@ pub fn encrypt(file_content: String) -> String {
     let encrypted_shellcode: String = blocks
         .iter()
         .flat_map(|block| block.iter().map(|byte| format!("\\x{:02x}", byte)))
-        .take(891)
+        .take(blocks.len() * 16)
         .collect::<Vec<String>>()
         .join("");
 
@@ -70,15 +71,12 @@ pub fn decrypt(file_content: String) -> String {
 
     // 以逗号为分隔符，并转换为u8数组
     let shellcode_bytes: Vec<u8> = key
-        .split(',') // 按逗号分割
+        .split("\\x")
+        .skip(1)    //跳过第一个空字符串
         .map(|s| {
-            // 去掉前缀 "0x"
-            let hex_part = &s[2..];
-            u8::from_str_radix(hex_part, 16).unwrap()
+            u8::from_str_radix(s, 16).unwrap()
         })
         .collect();
-
-    println!("{:?}", shellcode_bytes);
 
     // 将Shellcode字符串转换为字节数组
     //let shellcode_bytes: Vec<u8> = shellcode.bytes().collect();
@@ -99,25 +97,10 @@ pub fn decrypt(file_content: String) -> String {
     ];
 
     let key = GenericArray::from(key);
-    println!("key: {:?}", key);
 
     // 用密钥初始化加密器
     let cipher = Aes128::new(&key);
     println!("cipher: {:?}", cipher);
-
-    // 对每个块进行加密
-    for block in &mut blocks {
-        cipher.encrypt_block(block);
-    }
-
-    // 将加密后的字节数组转换为字符串，并在每两个字节之间插入一个逗号
-    let encrypted_shellcode: String = blocks
-        .iter()
-        .flat_map(|block| block.iter().map(|byte| format!("\\x{:02x}", byte)))
-        .take(891)
-        .collect::<Vec<String>>()
-        .join("");
-    println!("encrypted_shellcode: {}", encrypted_shellcode);
 
     // 对每个块进行解密
     for block in &mut blocks {
@@ -125,12 +108,39 @@ pub fn decrypt(file_content: String) -> String {
     }
 
     // 将解密后的字节数组转换为字符串，并在每两个字节之间插入一个逗号
-    let decrypted_shellcode: String = blocks
+    let decrypted_shellcode_nd: String = blocks
         .iter()
         .flat_map(|block| block.iter().map(|byte| format!("\\x{:02x}", byte)))
-        .take(891)
+        .take(blocks.len() * 16)
         .collect::<Vec<String>>()
         .join("");
 
+    let decrypted_shellcode = remove_trailing_zeros(&decrypted_shellcode_nd);
+
     decrypted_shellcode
+}
+
+fn remove_trailing_zeros(hex_string: &str) -> String {
+    // 将十六进制字符串转换为字节数组
+    let bytes: Vec<u8> = hex_string
+        .split("\\x")
+        .skip(1) // 跳过第一个空字符串
+        .map(|s| u8::from_str_radix(s, 16).unwrap())
+        .collect();
+
+    // 找到最后一个非零字节的索引
+    let last_non_zero_index = bytes.iter()
+        .rposition(|&byte| byte != 0)
+        .map_or(0, |index| index + 1);
+
+    // 去掉末尾的零字节
+    let trimmed_bytes = &bytes[..last_non_zero_index];
+
+    // 将字节数组转换回十六进制字符串
+    let trimmed_hex_string: String = trimmed_bytes
+        .iter()
+        .map(|byte| format!("\\x{:02x}", byte))
+        .collect();
+
+    trimmed_hex_string
 }
