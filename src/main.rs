@@ -10,5 +10,6 @@ fn main() {
 
     // 写入加密后的内容到文件
     // 把输出的内容放进 output.txt 文件
-    fs::write("output.txt", encrypted_content).expect("Unable to write file");
+    //fs::write("output.txt", encrypted_content).expect("Unable to write file");
+    println!("{:?}", encrypted_content);
 }

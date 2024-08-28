@@ -19,8 +19,6 @@ pub fn encrypt(file_content: String) -> String {
         })
         .collect();
 
-    println!("{:?}", shellcode_bytes);
-
     // 将Shellcode字符串转换为字节数组
     //let shellcode_bytes: Vec<u8> = shellcode.bytes().collect();
 
@@ -44,7 +42,6 @@ pub fn encrypt(file_content: String) -> String {
 
     // 用密钥初始化加密器
     let cipher = Aes128::new(&key);
-    println!("cipher: {:?}", cipher);
 
     // 对每个块进行加密
     for block in &mut blocks {
@@ -58,7 +55,6 @@ pub fn encrypt(file_content: String) -> String {
         .take(891)
         .collect::<Vec<String>>()
         .join("");
-    println!("encrypted_shellcode: {}", encrypted_shellcode);
 
     encrypted_shellcode
 }
@@ -122,9 +118,6 @@ pub fn decrypt(file_content: String) -> String {
         .collect::<Vec<String>>()
         .join("");
     println!("encrypted_shellcode: {}", encrypted_shellcode);
-
-    // 把输出的内容放进 output.txt 文件
-    fs::write("output.txt", encrypted_shellcode).expect("Unable to write file");
 
     // 对每个块进行解密
     for block in &mut blocks {
