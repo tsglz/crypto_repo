@@ -1,3 +1,4 @@
 @echo off
-python .\main.py
+python .\input\divide.py
+start .\target\debug\main.exe
 pause
