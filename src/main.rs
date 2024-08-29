@@ -9,7 +9,6 @@ fn main() {
     loop {
         // 显示选项列表
         let choice = base_func::table::show(vec![String::from("aes"), String::from("退出")]);
-        println!("{}", choice);
 
         // 选项的处理(先输出)和匹配(结果)
         let match_encrypt_result = choice::choice_select(choice);
