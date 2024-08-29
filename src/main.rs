@@ -1,26 +1,32 @@
 mod aes_128;
-mod table;
 mod choice;
+mod base_func;
 
 //use std::fs;
-use std::io::{self, Write};
 
 fn main() {
+    // 显示欢迎信息
+    println!("Welcome,master!");
+
     loop {
         // 显示选项列表
-        table::show();
+        let choice = base_func::table::show(vec![String::from("aes"), String::from("退出")]);
+        println!("{}", choice);
 
-        // 选择加解密的选项
-        let mut choice = String::new();
-        io::stdout().flush().unwrap(); //刷新标准输出缓冲区
-        io::stdin().read_line(&mut choice).expect("输入错误");
-
-        // 打印选择的选项
-        println!("你选择了:{}", choice);
-
-        // 选项的处理和匹配
+        // 选项的处理(先输出)和匹配(结果)
         let match_encrypt_result = choice::choice_select(choice);
-        println!("match_encrypt_result:{}", match_encrypt_result);
+
+        match match_encrypt_result {
+            1 => {
+                // 进入 aes 匹配选项
+                choice::match_aes();
+            }
+            2 => {
+                println!("再见");
+                return;
+            }
+            _ => println!("请输入有效的选项"),
+        }
     }
 
     // 读取文件内容
