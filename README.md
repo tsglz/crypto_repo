@@ -26,4 +26,4 @@
 aes_128 目前支持 16进制(0x00,0x01)，以及机器码(\xfc\f44) 两种形式
 
 1. 16进制形式：直接将 shellcode 输入到 output.txt 文件中，然后运行 aes_128.exe
-2. 机器码形式：运行start.bat(需要 python3 环境)，将 shellcode 转换为机器码，然后 bat 脚本会自动运行 aes_128.exe
+2. 机器码形式：将shellcode 添加到 divide.py 的指定位置，运行start.bat(需要 python3 环境)，将 shellcode 转换为机器码，然后 bat 脚本会自动运行 aes_128.exe

@@ -1,6 +1,7 @@
 use std::io::{self, Write};
 
 pub fn show(options: Vec<String>) -> String {
+    println!("");
     for i in 0..options.len() {
         println!("{}.{}", i+1, options[i])
     }

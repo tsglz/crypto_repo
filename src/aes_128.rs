@@ -1,4 +1,4 @@
-use aes::cipher::typenum::Length;
+//use aes::cipher;
 use aes::cipher::{generic_array::GenericArray, BlockDecrypt, BlockEncrypt, KeyInit};
 use aes::Aes128;
 
@@ -39,7 +39,7 @@ pub fn encrypt(file_content: String) -> String {
     ];
 
     let key = GenericArray::from(key);
-    println!("key: {:?}", key);
+    //println!("key: {:?}", key);
 
     // 用密钥初始化加密器
     let cipher = Aes128::new(&key);
@@ -100,7 +100,6 @@ pub fn decrypt(file_content: String) -> String {
 
     // 用密钥初始化加密器
     let cipher = Aes128::new(&key);
-    println!("cipher: {:?}", cipher);
 
     // 对每个块进行解密
     for block in &mut blocks {
