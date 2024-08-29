@@ -1,6 +1,6 @@
 # crypto_repo
 
-通过 rust 实现的加密算法快速使用
+通过 rust 实现的对于 shellcode 加密算法快速使用
 同时，将通过文档和注释的方式协助进行代码的扩充和自定义处理
 脚本也能够协助使用者进行批量化处理
 
@@ -23,4 +23,7 @@
 
 ## aes_128
 
+aes_128 目前支持 16进制(0x00,0x01)，以及机器码(\xfc\f44) 两种形式
 
+1. 16进制形式：直接将 shellcode 输入到 output.txt 文件中，然后运行 aes_128.exe
+2. 机器码形式：运行start.bat(需要 python3 环境)，将 shellcode 转换为机器码，然后 bat 脚本会自动运行 aes_128.exe
