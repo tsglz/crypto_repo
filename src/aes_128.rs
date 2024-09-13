@@ -33,7 +33,7 @@ pub fn encrypt(file_content: String) -> String {
         })
         .collect();
 
-    //这个可以自定义
+    // key 这个可以自定义
     let key: [u8; 16] = [
         24, 11, 15, 22, 18, 21, 13, 19, 16, 14, 23, 17, 20, 12, 10, 25,
     ];
