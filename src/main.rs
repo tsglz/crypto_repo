@@ -26,7 +26,7 @@ fn main() {
             2 => {
                 // 读取两个正整数, 并计算最大公约数
                 let num = gcd::get_num();
-                gcd::output_result(gcd::gcd_by_euclidean_algorithm(num.0, num.1));
+                gcd::output_result(num.0, num.1);
             }
             3 => {
                 println!("再见");
