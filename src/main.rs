@@ -2,6 +2,7 @@ mod aes_128;
 mod base_func;
 mod choice;
 mod gcd;
+mod fermat;
 
 fn main() {
     // 显示欢迎信息
@@ -10,8 +11,9 @@ fn main() {
     loop {
         // 显示选项列表
         let choice = base_func::table::show(vec![
-            String::from("aes"),          // AES 加密
-            String::from("求最大公约数"), // 辗转相除法
+            String::from("aes"),            // AES 加密
+            String::from("求最大公约数"),   // 辗转相除法
+            String::from("Fermat素数测试"), // Fermat素数测试
             String::from("退出"),
         ]);
 
@@ -29,6 +31,9 @@ fn main() {
                 gcd::output_result(num.0, num.1);
             }
             3 => {
+                fermat::use_fermat();
+            }
+            4 => {
                 println!("再见");
                 return;
             }
