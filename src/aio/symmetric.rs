@@ -1,7 +1,7 @@
-use std::collections::HashMap;
+//use std::collections::HashMap;
 use std::io::{self, Write};
 
-const alphabet: &str = "abcdefghijklmnopqrstuvwxyz";
+const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz";
 
 // 加密函数
 pub fn vigenere_encrypt(){
@@ -13,11 +13,11 @@ pub fn vigenere_encrypt(){
     let mut key_index = 0;
 
     for char in plaintext.chars() {
-        if alphabet.contains(char) {  // 确保字符是字母
-            let char_index = alphabet.chars().position(|c| c == char).unwrap();
-            let key_char_index = alphabet.chars().position(|c| c == key.chars().nth(key_index % key.len()).unwrap()).unwrap();
+        if ALPHABET.contains(char) {  // 确保字符是字母
+            let char_index = ALPHABET.chars().position(|c| c == char).unwrap();
+            let key_char_index = ALPHABET.chars().position(|c| c == key.chars().nth(key_index % key.len()).unwrap()).unwrap();
             // 进行加密，字母表中按位置进行循环
-            let encrypted_char = alphabet.chars().nth((char_index + key_char_index) % 26).unwrap();
+            let encrypted_char = ALPHABET.chars().nth((char_index + key_char_index) % 26).unwrap();
             ciphertext.push(encrypted_char);
             key_index += 1;  // 密钥索引递增
         } else {
@@ -38,11 +38,11 @@ pub fn vigenere_decrypt(){
     let mut key_index = 0;
 
     for char in ciphertext.chars() {
-        if alphabet.contains(char) {  // 确保字符是字母
-            let char_index = alphabet.chars().position(|c| c == char).unwrap();
-            let key_char_index = alphabet.chars().position(|c| c == key.chars().nth(key_index % key.len()).unwrap()).unwrap();
+        if ALPHABET.contains(char) {  // 确保字符是字母
+            let char_index = ALPHABET.chars().position(|c| c == char).unwrap();
+            let key_char_index = ALPHABET.chars().position(|c| c == key.chars().nth(key_index % key.len()).unwrap()).unwrap();
             // 进行解密，字母表中按位置进行循环
-            let decrypted_char = alphabet.chars().nth((char_index + 26 - key_char_index) % 26).unwrap();
+            let decrypted_char = ALPHABET.chars().nth((char_index + 26 - key_char_index) % 26).unwrap();
             plaintext.push(decrypted_char);
             key_index += 1;  // 密钥索引递增
         } else {
@@ -54,16 +54,18 @@ pub fn vigenere_decrypt(){
 }
 
 // 统计字母频率函数
+/*
 fn letter_frequency(text: &str) -> HashMap<char, usize> {
     let mut frequency = HashMap::new();
     for char in text.to_uppercase().chars() {
-        if alphabet.contains(char) {
+        if ALPHABET.contains(char) {
             let counter = frequency.entry(char).or_insert(0);
             *counter += 1;
         }
     }
     frequency
 }
+*/
 
 pub fn get_text(output: &str) -> String {
     print!("{}: ", output);      // 打印提示信息

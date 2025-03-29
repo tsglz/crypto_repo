@@ -45,6 +45,7 @@ fn main() {
                     String::from("退出"),
                     String::from("维吉尼亚"),
                     String::from("AES"),
+                    String::from("SM4"),
                 ]);
                 let match_format_result = base_func::choice::choice_select(choice_format);
                 match match_format_result {
@@ -66,6 +67,9 @@ fn main() {
                     3 => {
                         // 调用不再依赖文件的 AES 交互方式
                         aio::aes_128::match_aes();
+                    }
+                    4 => {
+                        aio::sm4::match_sm4();
                     }
                     _ => println!("请输入有效的选项"),
                 }

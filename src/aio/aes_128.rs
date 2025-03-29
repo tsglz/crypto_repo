@@ -1,4 +1,3 @@
-use aes::cipher;
 use aes::cipher::{generic_array::GenericArray, BlockDecrypt, BlockEncrypt, KeyInit};
 use aes::Aes128;
 use std::io;
@@ -73,7 +72,9 @@ pub fn decrypt(input: &str) -> String { // 确保返回 String
         .collect::<Vec<String>>()
         .join("");
 
-    println!("解密后的十六进制格式: {}", decrypted_hex);
+    let cut_decrypted_hex = remove_trailing_zeros(&decrypted_hex);
+
+    println!("解密后的十六进制格式: {}", cut_decrypted_hex);
 
     // **尝试转义成可读字符串**
     let decrypted_bytes: Vec<u8> = blocks.iter().flat_map(|block| block.iter().copied()).collect();
@@ -84,7 +85,7 @@ pub fn decrypt(input: &str) -> String { // 确保返回 String
     }
 
     println!("无法转换为可读字符串");
-    decrypted_hex // 返回十六进制格式
+    cut_decrypted_hex // 返回十六进制格式
 }
 
 

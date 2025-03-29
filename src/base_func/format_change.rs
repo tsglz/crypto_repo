@@ -1,7 +1,9 @@
+#[allow(unused_imports)]
 use std::fs::{self, File};
 use std::io::{self, Write};
 use std::path::Path;
 
+#[allow(dead_code)]
 fn extract_and_write(output_file: &str, process_string: &str) -> io::Result<()> {
     let current_dir = std::env::current_dir()?;
     let file_path = current_dir.join(output_file);
@@ -28,6 +30,7 @@ fn extract_and_write(output_file: &str, process_string: &str) -> io::Result<()> 
     Ok(())
 }
 
+/*
 fn generate_shellcode_array(shellcode_str: &str) -> String {
     // 使用 split 方法以 \x 为分隔符并忽略第一个空元素
     let parts: Vec<&str> = shellcode_str.split("\\x").filter(|s| !s.is_empty()).collect();
@@ -47,9 +50,12 @@ pub fn write_shellcode_to_file(shellcode_str: &str) {
         println!("发生错误: {}", e);
     }
 }
+*/
 
+/*
 fn main() {
     // 输入机器码，以文本形式表示
     let shellcode_str = r"\x83\x3f"; // 请将实际的机器码文本填入这里
     write_shellcode_to_file(shellcode_str);
 }
+*/
